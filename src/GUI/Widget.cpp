@@ -141,7 +141,7 @@ void Widget::AddAction(const std::string& action_name, std::function<void ()> ac
 
     for(size_t i = 0; i < s; ++i){
         if(_Listeners[i].listener == listener){
-            _Listeners[i].Actions[action_name] = action;
+            _Listeners[i].actions[action_name] = action;
             found = true;
             break;
         }
@@ -150,7 +150,7 @@ void Widget::AddAction(const std::string& action_name, std::function<void ()> ac
     if(!found){
         Actions actions;
         actions.listener = listener;
-        actions.Actions[action_name] = action;
+        actions.actions[action_name] = action;
 
         _Listeners.push_back(actions);
     }
@@ -161,8 +161,8 @@ void Widget::DeleteAction(const std::string& action_name, Object* listener){
 
     for(size_t i = 0; i < s; ++i){
         if(_Listeners[i].listener == listener){
-            if(_Listeners[i].Actions.count(action_name)){
-                _Listeners[i].Actions.erase(action_name);
+            if(_Listeners[i].actions.count(action_name)){
+                _Listeners[i].actions.erase(action_name);
                 break;
             }
         }
@@ -182,8 +182,8 @@ void Widget::EmitAction(const std::string& action_name){
     size_t s = _Listeners.size();
 
     for(size_t i = 0; i < s; ++i){
-       if(_Listeners[i].Actions.count(action_name)){
-           auto fun = _Listeners[i].Actions[action_name];
+       if(_Listeners[i].actions.count(action_name)){
+           auto fun = _Listeners[i].actions[action_name];
 
            if(fun){
                fun();
